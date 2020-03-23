@@ -1,0 +1,24 @@
+#BlueJ class context
+comment0.target=InterGereVendasController
+comment0.text=\n\ Escreva\ a\ descri\u00E7\u00E3o\ da\ interface\ InterGereVendasController\ aqui.\n\ \n\ @author\ (seu\ nome)\ \n\ @version\ (n\u00FAmero\ da\ vers\u00E3o\ ou\ data)\n
+comment1.params=x
+comment1.target=void\ setModel(InterGereVendasModel)
+comment2.params=y
+comment2.target=void\ setView(InterGereVendasView)
+comment3.params=
+comment3.target=InterGereVendasModel\ getModel()
+comment4.params=
+comment4.target=InterGereVendasView\ getView()
+comment5.params=
+comment5.target=void\ startController()
+comment6.params=
+comment6.target=void\ lerFicheiros()
+comment7.params=
+comment7.target=void\ consultarQueries()
+comment8.params=
+comment8.target=void\ abreEstadoGuardado()
+comment8.text=\n\ Metodo\ que\ inicializa\ um\ estado\ previamente\ guardado\ em\ ficheiro\n\ \n\ @param\ \ \ fich\ \ o\ ficheiro\ onde\ esta\ o\ ficheiro\ guardado\n
+comment9.params=
+comment9.target=void\ guardaEstadoFicheiro()
+comment9.text=\n\ Metodo\ que\ guarda\ um\ estado\ num\ ficheiro\n\ \n\ @param\ \ \ fich\ \ o\ ficheiro\ onde\ e\ para\ guardar\ o\ ficheiro\n
+numComments=10

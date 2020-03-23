@@ -1,0 +1,883 @@
+\documentclass{article}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage[utf8]{inputenc}
+\usepackage[skins,listings,breakable]{tcolorbox}
+\colorlet{mygray}{black!30}
+\colorlet{mygreen}{green!60!blue}
+\colorlet{mymauve}{red!60!blue}
+\definecolor{darkpastelred}{rgb}{0.76, 0.23, 0.13}
+
+\usepackage{natbib}
+\usepackage{graphicx}
+
+
+\begin{document}
+\thispagestyle{empty}
+\begin{center}
+
+\begin{figure}
+\centering
+\includegraphics[width=.36\textwidth]{UM.jpg}
+\end{figure}
+
+\begin{Huge}
+\textbf{Universidade do Minho}
+\end{Huge}
+
+\begin{LARGE}
+\\ \ \\ 
+Mestrado Integrado em Engenharia Informática
+\end{LARGE}
+
+\\ \ \\ \ \\ \ \\ \ \\ \ \\ \ \\ \ \\ \ \\ \ \\ \ \\ \ \\ \ \\ \ \\ \ \\ \ \\ \ \\ 
+\begin{huge}
+Laboratórios de Informática III
+\end{huge}
+
+\begin{Large}
+\\ \ \\ 
+Relatório do Projeto em C
+\end{Large} 
+\begin{large}
+\\ \ \\
+Grupo 60:
+\end{large} 
+\\ \ \\ \ \\
+\end{center}
+
+
+\begin{normalsize}
+
+\begin{multicols}
+           Ana Rita Rosendo \hspace{1.3cm} Gonçalo Esteves \hspace{1.7cm} Rui Oliveira
+          
+\end{multicols}
+
+\end{normalsize}
+
+\begin{footnotesize}
+
+ \vspace{0.1cm}
+           \hspace{0.8cm} A84475 \hspace{3cm} A85731 \hspace{3cm} A83610
+
+\end{footnotesize}
+
+\begin{multicols}
+        \begin{figure*}[ht!]
+            \hspace{0.8cm}
+            \includegraphics[width=.18\textwidth]{hades.jpeg} 
+            \hspace{1.8cm}
+            \includegraphics[width=.18\textwidth]{komatsu.jpeg}
+            \hspace{1.7cm}
+            \includegraphics[width=.18\textwidth]{priest.jpeg}
+           
+        \end{figure*}
+\end{multicols}
+
+\section{\begin{Large}
+\textbf{Introdução}
+\end{Large}}
+\par\noindent\hspace{0.52cm}No âmbito da Unidade Curricular de Laboratórios de Informática 3, foi-nos proposta a elaboração de um projeto em linguagem de programação C, cuja finalidade seria a leitura e análise de diversos ficheiros de dados, fornecidos pelos docentes. Estes ficheiros estão divididos em três tipos: ficheiros com códigos de produtos, ficheiros com códigos de clientes, e ficheiros com códigos de vendas. O objetivo do trabalho passa pela leitura e validação dos códigos dados nos ficheiros, e a sua inserção em estruturas de dados diversas que permitirão a análise da informação através das 12 \textit{queries} sugeridas pelos docentes, cuja implementação também está ao nosso encargo.
+
+\section{\begin{Large}
+\textbf{Estrutura de Dados}
+\end{Large}}
+
+\par\noindent\hspace{0.52cm}De modo a elaborar o nosso projeto, debruçamo-nos sobre a matéria lecionada nas Unidades Curriculares de Programação Imperativa e Algoritmos e Complexidade, aproveitando os conhecimentos adquiridos para elaborar estruturas de dados eficientes, capazes de suportar a informação pretendida. Deste modo, a estrutura de dados principal é definida da seguinte forma: 
+\\
+
+\lstset{
+  backgroundcolor=\color{gray!10},  
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  breakatwhitespace=false,      
+  breaklines=true,                
+  captionpos=b,                    
+  commentstyle=\color{mygreen}, 
+  extendedchars=true,              
+  frame=single,                   
+  keepspaces=true,             
+  keywordstyle=\color{darkpastelred},      
+  language=c,                 
+  numbers=none,                
+  numbersep=5pt,                   
+  numberstyle=\tiny\color{blue}, 
+  rulecolor=\color{mygray},        
+  showspaces=false,               
+  showtabs=false,                 
+  stepnumber=5,                  
+  stringstyle=\color{mymauve},    
+  tabsize=3,                      
+  title=\lstname                
+}
+
+\begin{lstlisting}
+typedef struct sgv{
+	CatProd catp;
+	CatCli catc;
+	FatGlobal fat;
+	VendasTotal vendas;
+} *SGV;
+\end{lstlisting}
+
+Como pode ser observado, a estrutura de dados \textbf{SGV} é constituída pelo catálogo de produtos \textbf{CatProd}, pelo catálogo de clientes \textbf{CatCli}, por uma estrutura \textbf{FatGlobal} que corresponde à faturação e por uma estrutura \textbf{VendasTotal} que corresponde a todas as vendas efetuadas.
+
+Comecemos por analisar as estruturas definidas no catálogo de produtos.
+\\
+
+\lstset{
+  backgroundcolor=\color{gray!10},  
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  breakatwhitespace=false,      
+  breaklines=true,                
+  captionpos=b,                    
+  commentstyle=\color{mygreen}, 
+  extendedchars=true,              
+  frame=single,                   
+  keepspaces=true,             
+  keywordstyle=\color{darkpastelred},      
+  language=c,                 
+  numbers=none,                
+  numbersep=5pt,                   
+  numberstyle=\tiny\color{blue}, 
+  rulecolor=\color{mygray},        
+  showspaces=false,               
+  showtabs=false,                 
+  stepnumber=5,                  
+  stringstyle=\color{mymauve},    
+  tabsize=3,                      
+  title=\lstname                
+}
+
+\begin{lstlisting}
+typedef char* Produto;
+
+typedef struct nodoProd{
+	Produto produto;
+	struct nodoProd *dir, *esq;
+} *ArvProd;
+
+typedef ArvProd* CatProd;
+\end{lstlisting}
+
+A \textbf{ArvProd} é uma estrutura de dados do tipo árvore binária onde os produtos são guardados por ordem alfabética. 
+
+Portanto, o catálogo de produtos é um array dinâmico de diversas \textbf{ArvProd}, em que cada árvore suporta os produtos começados por uma mesma letra.
+
+De seguida, analisemos as estruturas definidas catálogo de clientes.
+\\
+\lstset{
+  backgroundcolor=\color{gray!10},  
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  breakatwhitespace=false,      
+  breaklines=true,                
+  captionpos=b,                    
+  commentstyle=\color{mygreen}, 
+  extendedchars=true,              
+  frame=single,                   
+  keepspaces=true,             
+  keywordstyle=\color{darkpastelred},      
+  language=c,                 
+  numbers=none,                
+  numbersep=5pt,                   
+  numberstyle=\tiny\color{blue}, 
+  rulecolor=\color{mygray},        
+  showspaces=false,               
+  showtabs=false,                 
+  stepnumber=5,                  
+  stringstyle=\color{mymauve},    
+  tabsize=3,                      
+  title=\lstname                
+}
+
+\begin{lstlisting}
+typedef char* Cliente;
+
+typedef struct nodoCli{
+	Cliente cliente;
+	struct nodoCli *dir, *esq;
+} *ArvCli;
+
+typedef ArvCli* CatCli;
+\end{lstlisting}
+
+Tal como a \textbf{ArvProd}, a \textbf{ArvCli} é uma árvore binária, onde os clientes são inseridos ordenadamente.
+
+Logo, o catálogo de clientes será também um array dinâmico de árvores do tipo \textbf{ArvCli}, em que cada árvore suporta os clientes começados pela mesma letra.
+
+Observemos agora estruturas definidas no ficheiro de faturação.
+\\
+\lstset{
+  backgroundcolor=\color{gray!10},  
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  breakatwhitespace=false,      
+  breaklines=true,                
+  captionpos=b,                    
+  commentstyle=\color{mygreen}, 
+  extendedchars=true,              
+  frame=single,                   
+  keepspaces=true,             
+  keywordstyle=\color{darkpastelred},      
+  language=c,                 
+  numbers=none,                
+  numbersep=5pt,                   
+  numberstyle=\tiny\color{blue}, 
+  rulecolor=\color{mygray},        
+  showspaces=false,               
+  showtabs=false,                 
+  stepnumber=5,                  
+  stringstyle=\color{mymauve},    
+  tabsize=3,                      
+  title=\lstname                
+}
+
+\begin{lstlisting}
+typedef struct fatura{
+	Produto produto;
+	double preco;
+	int quantidade;
+	char* tipo;
+} *Fatura;
+
+typedef struct nodoFat{
+	Fatura fatura;
+	struct nodoFat *dir, *esq;
+} *ArvFat;
+
+typedef ArvFat*** FatGlobal;
+\end{lstlisting}
+
+
+A \textbf{Fatura} é uma estrutura de dados que contém os dados de uma fatura sendo esses o produto, o preço, a quantidade de produto comprado e o seu tipo de compra que pode ser normal ou em promoção.
+
+A \textbf{ArvFat} é uma estrutura de dados do tipo árvore binária que guarda as faturas ordenadas pelo produto.
+
+Assim, a estrutura \textbf{FatGlobal} é constituída por diversas árvores \textbf{ArvFat} (mais precisamente, trata-se de um array tridimensional de árvores de faturas), estando as suas dimensões associadas ao \textit{Nº de Filiais}, \textit{Nº de Meses} e \textit{Nº de Letras}. Ou seja, cada árvore está associada a uma filial, um mês e uma letra (letra inicial do código do produto) específicos. 
+
+Por fim, consideremos as estruturas definidas no ficheiro que gere as filiais.
+\\ 
+\lstset{
+  backgroundcolor=\color{gray!10},  
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  breakatwhitespace=false,      
+  breaklines=true,                
+  captionpos=b,                    
+  commentstyle=\color{mygreen}, 
+  extendedchars=true,              
+  frame=single,                   
+  keepspaces=true,             
+  keywordstyle=\color{darkpastelred},      
+  language=c,                 
+  numbers=none,                
+  numbersep=5pt,                   
+  numberstyle=\tiny\color{blue}, 
+  rulecolor=\color{mygray},        
+  showspaces=false,               
+  showtabs=false,                 
+  stepnumber=5,                  
+  stringstyle=\color{mymauve},    
+  tabsize=3,                      
+  title=\lstname                
+}
+
+\begin{lstlisting}
+typedef struct venda{
+	Produto produto;
+	Cliente cliente;
+	int quantidade;
+	char* tipo;
+	double preco;
+} *Venda;
+
+typedef struct nodoVenda{
+	Venda venda;
+	struct nodoVenda *dir, *esq;
+} *ArvVenda;
+
+typedef ArvVenda**** VendasTotal;
+\end{lstlisting}
+
+A \textbf{Venda} é uma estrutura de dados que contém os dados de uma venda sendo esses o produto vendido, o cliente que efetuou a compra, a quantidade de produto vendido, o tipo de compra e o preço do produto.
+
+A \textbf{ArvVenda} é uma estrutura de dados do tipo árvore que guarda as vendas, ordenadas pelo produto.
+
+Deste modo, podemos afirmar que a estrutura \textbf{VendasTotal} se trata de um array tetradimensional de árvores do tipo \textit{ArvVenda}, onde as suas dimensões são determinadas pelo \textit{Nº de Filiais}, o \textit{Nº de Meses} e \textit{Nº de Letras} (sendo este último considerado duas vezes). Assim, podemos afirmar que cada árvore esta associada a uma filial, um mês e a duas letras (iguais ou não) - a primeira será relacionada com o cliente, e a segunda com produto. 
+
+\vspace{1cm}
+
+Para além das estruturas já analisadas, foi necessário criar outras estruturas essenciais para o desenvolvimento do projeto.
+\par No ficheiro do catálogo dos produtos, foi criada uma estrutura de dados, a \textbf{ListaProd}, que suporta um array dinâmico de produtos e o número de produtos no array.
+\\ \\ \\ \\ \\
+\lstset{
+  backgroundcolor=\color{gray!10},  
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  breakatwhitespace=false,      
+  breaklines=true,                
+  captionpos=b,                    
+  commentstyle=\color{mygreen}, 
+  extendedchars=true,              
+  frame=single,                   
+  keepspaces=true,             
+  keywordstyle=\color{darkpastelred},      
+  language=c,                 
+  numbers=none,                
+  numbersep=5pt,                   
+  numberstyle=\tiny\color{blue}, 
+  rulecolor=\color{mygray},        
+  showspaces=false,               
+  showtabs=false,                 
+  stepnumber=5,                  
+  stringstyle=\color{mymauve},    
+  tabsize=3,                      
+  title=\lstname                
+}
+
+\begin{lstlisting}
+typedef struct listaProd{
+	Produto* produtos;
+	int quantos;
+} *ListaProd;
+
+\end{lstlisting}
+
+À semelhança do caso anterior também no ficheiro do catálogo dos clientes foi criada uma estrutura de dados, a \textbf{ListaCli}, que guarda códigos de clientes num array dinâmico, e o número de clientes inseridos nesse array.
+\\
+\lstset{
+  backgroundcolor=\color{gray!10},  
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  breakatwhitespace=false,      
+  breaklines=true,                
+  captionpos=b,                    
+  commentstyle=\color{mygreen}, 
+  extendedchars=true,              
+  frame=single,                   
+  keepspaces=true,             
+  keywordstyle=\color{darkpastelred},      
+  language=c,                 
+  numbers=none,                
+  numbersep=5pt,                   
+  numberstyle=\tiny\color{blue}, 
+  rulecolor=\color{mygray},        
+  showspaces=false,               
+  showtabs=false,                 
+  stepnumber=5,                  
+  stringstyle=\color{mymauve},    
+  tabsize=3,                      
+  title=\lstname                
+}
+
+\begin{lstlisting}
+typedef struct listaCli{
+	Cliente* clientes;
+	int quantos;
+} *ListaCli;
+
+\end{lstlisting}
+
+Também no ficheiro da faturação foi necessário definir novas estruturas, tais como:
+
+\vspace{0.5cm}
+
+- estrutura \textbf{VendaInicial}
+\\
+\lstset{
+  backgroundcolor=\color{gray!10},  
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  breakatwhitespace=false,      
+  breaklines=true,                
+  captionpos=b,                    
+  commentstyle=\color{mygreen}, 
+  extendedchars=true,              
+  frame=single,                   
+  keepspaces=true,             
+  keywordstyle=\color{darkpastelred},      
+  language=c,                 
+  numbers=none,                
+  numbersep=5pt,                   
+  numberstyle=\tiny\color{blue}, 
+  rulecolor=\color{mygray},        
+  showspaces=false,               
+  showtabs=false,                 
+  stepnumber=5,                  
+  stringstyle=\color{mymauve},    
+  tabsize=3,                      
+  title=\lstname                
+}
+
+\begin{lstlisting}
+typedef struct vendaInicial{
+	Produto produto;
+	Cliente cliente;
+	int quantidade;
+	double preco;
+	char* tipo;
+	int mes;
+	int filial;	
+} *VendaInicial;
+
+\end{lstlisting}
+
+Esta estrutura contém os dados de uma venda completa, sendo esses o produto vendido, o cliente que efetuou a compra, a quantidade e o preço do produto vendido, e o mês e a filial em que o produto foi vendido.
+
+\vspace{0.5cm}
+
+\\ \ \\ \ \\ \ \\ \ \\ \ \\ \ \\ \ \\
+- estrutura \textbf{Par}
+\\
+\lstset{
+  backgroundcolor=\color{gray!10},  
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  breakatwhitespace=false,      
+  breaklines=true,                
+  captionpos=b,                    
+  commentstyle=\color{mygreen}, 
+  extendedchars=true,              
+  frame=single,                   
+  keepspaces=true,             
+  keywordstyle=\color{darkpastelred},      
+  language=c,                 
+  numbers=none,                
+  numbersep=5pt,                   
+  numberstyle=\tiny\color{blue}, 
+  rulecolor=\color{mygray},        
+  showspaces=false,               
+  showtabs=false,                 
+  stepnumber=5,                  
+  stringstyle=\color{mymauve},    
+  tabsize=3,                      
+  title=\lstname                
+}
+
+\begin{lstlisting}
+typedef struct par{
+	int elemI;
+	double elemD;
+} *Par;
+
+\end{lstlisting}
+
+Esta estrutura define um par de inteiros/double.
+\vspace{0.5cm}
+
+Também foram criadas novas estruturas no ficheiro da gestão de filiais, tais como:
+
+\vspace{0.5cm}
+- estrutura \textbf{ParProdInt} 
+\\
+\lstset{
+  backgroundcolor=\color{gray!10},  
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  breakatwhitespace=false,      
+  breaklines=true,                
+  captionpos=b,                    
+  commentstyle=\color{mygreen}, 
+  extendedchars=true,              
+  frame=single,                   
+  keepspaces=true,             
+  keywordstyle=\color{darkpastelred},      
+  language=c,                 
+  numbers=none,                
+  numbersep=5pt,                   
+  numberstyle=\tiny\color{blue}, 
+  rulecolor=\color{mygray},        
+  showspaces=false,               
+  showtabs=false,                 
+  stepnumber=5,                  
+  stringstyle=\color{mymauve},    
+  tabsize=3,                      
+  title=\lstname                
+}
+
+\begin{lstlisting}
+typedef struct parProdInt{
+	Produto produto;
+	int quantidade;
+} *ParProdInt;
+
+\end{lstlisting}
+
+Esta estrutura representa um par de produtos/int em que o int corresponde à quantidade vendida do produto em questão.
+
+\vspace{0.5cm}
+
+- estrutura \textbf{ListaParesInt}
+\\
+\lstset{
+  backgroundcolor=\color{gray!10},  
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  breakatwhitespace=false,      
+  breaklines=true,                
+  captionpos=b,                    
+  commentstyle=\color{mygreen}, 
+  extendedchars=true,              
+  frame=single,                   
+  keepspaces=true,             
+  keywordstyle=\color{darkpastelred},      
+  language=c,                 
+  numbers=none,                
+  numbersep=5pt,                   
+  numberstyle=\tiny\color{blue}, 
+  rulecolor=\color{mygray},        
+  showspaces=false,               
+  showtabs=false,                 
+  stepnumber=5,                  
+  stringstyle=\color{mymauve},    
+  tabsize=3,                      
+  title=\lstname                
+}
+
+\begin{lstlisting}
+typedef struct listaProdIntQuant{
+	ParProdInt* pares;
+	int quantos;
+} *ListaParesInt;
+
+\end{lstlisting}
+
+Esta estrutura representa uma lista de pares produtos/int e a quantidade de pares.
+
+\vspace{0.5cm}
+- estrutura \textbf{ParProdDouble}
+\\
+\lstset{
+  backgroundcolor=\color{gray!10},  
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  breakatwhitespace=false,      
+  breaklines=true,                
+  captionpos=b,                    
+  commentstyle=\color{mygreen}, 
+  extendedchars=true,              
+  frame=single,                   
+  keepspaces=true,             
+  keywordstyle=\color{darkpastelred},      
+  language=c,                 
+  numbers=none,                
+  numbersep=5pt,                   
+  numberstyle=\tiny\color{blue}, 
+  rulecolor=\color{mygray},        
+  showspaces=false,               
+  showtabs=false,                 
+  stepnumber=5,                  
+  stringstyle=\color{mymauve},    
+  tabsize=3,                      
+  title=\lstname                
+}
+
+\begin{lstlisting}
+typedef struct parProdDouble{
+	Produto produto;
+	double quantidade;
+} *ParProdDouble;
+
+\end{lstlisting}
+
+Esta estrutura representa um par de produtos/double em que a quantidade representa o total de dinheiro ganho com o produto.
+
+\vspace{0.5cm}
+
+- estrutura \textbf{ListaParesDouble}
+\\
+\lstset{
+  backgroundcolor=\color{gray!10},  
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  breakatwhitespace=false,      
+  breaklines=true,                
+  captionpos=b,                    
+  commentstyle=\color{mygreen}, 
+  extendedchars=true,              
+  frame=single,                   
+  keepspaces=true,             
+  keywordstyle=\color{darkpastelred},      
+  language=c,                 
+  numbers=none,                
+  numbersep=5pt,                   
+  numberstyle=\tiny\color{blue}, 
+  rulecolor=\color{mygray},        
+  showspaces=false,               
+  showtabs=false,                 
+  stepnumber=5,                  
+  stringstyle=\color{mymauve},    
+  tabsize=3,                      
+  title=\lstname                
+}
+
+\begin{lstlisting}
+typedef struct listaProdDoubleQuant{
+	ParProdDouble* pares;
+	int quantos;
+} *ListaParesDouble;
+
+\end{lstlisting}
+
+Esta estrutura representa uma lista de pares produtos/double e a quantidade de pares.
+
+\vspace{0.5cm}
+
+- estrutura \textbf{TriploPCQ}
+\\
+\lstset{
+  backgroundcolor=\color{gray!10},  
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  breakatwhitespace=false,      
+  breaklines=true,                
+  captionpos=b,                    
+  commentstyle=\color{mygreen}, 
+  extendedchars=true,              
+  frame=single,                   
+  keepspaces=true,             
+  keywordstyle=\color{darkpastelred},      
+  language=c,                 
+  numbers=none,                
+  numbersep=5pt,                   
+  numberstyle=\tiny\color{blue}, 
+  rulecolor=\color{mygray},        
+  showspaces=false,               
+  showtabs=false,                 
+  stepnumber=5,                  
+  stringstyle=\color{mymauve},    
+  tabsize=3,                      
+  title=\lstname                
+}
+
+\begin{lstlisting}
+typedef struct triploPCQ{
+	Produto produto;
+	int nCli;
+	int quantidade;
+} *TriploPCQ; 
+\end{lstlisting}
+
+Esta estrutura representa um triplo de produto/número de clientes/quantidade vendida.
+
+\vspace{0.5cm}
+
+- estrutura \textbf{ListaTriplos}
+\\
+\lstset{
+  backgroundcolor=\color{gray!10},  
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  breakatwhitespace=false,      
+  breaklines=true,                
+  captionpos=b,                    
+  commentstyle=\color{mygreen}, 
+  extendedchars=true,              
+  frame=single,                   
+  keepspaces=true,             
+  keywordstyle=\color{darkpastelred},      
+  language=c,                 
+  numbers=none,                
+  numbersep=5pt,                   
+  numberstyle=\tiny\color{blue}, 
+  rulecolor=\color{mygray},        
+  showspaces=false,               
+  showtabs=false,                 
+  stepnumber=5,                  
+  stringstyle=\color{mymauve},    
+  tabsize=3,                      
+  title=\lstname                
+}
+
+\begin{lstlisting}
+typedef struct listaTriplos{
+	TriploPCQ* triplos;
+	int quantos;
+} *ListaTriplos;
+\end{lstlisting}
+
+Esta estrutura representa uma lista de triplos e a quantidade de triplos existentes na lista.
+
+\newpage
+
+\section{\begin{Large}
+\textbf{Queries}
+\end{Large}}
+
+\subsection{Query 1}
+
+\noindent\fbox{%
+    \parbox{\textwidth}{%
+       \hspace{0.52cm} A query 1 permite ao utilizador ler os ficheiros de Produtos, Clientes e Vendas e apresenta ao utilizador o nome do ficheiro lido, bem como o número de linhas lidas e o de linhas validadas.
+    }%
+}
+\vspace{1cm}
+
+\par\noindent\hspace{0.52cm}Para responder a esta \textit{query}, foram criados 3 algoritmos que lessem os diferentes ficheiros.
+Para os de Produtos e de Clientes usamos a mesma metadologia. Primeiro, lemos o ficheiro, percorremos código a código e, caso seja válido, inserimos num catálogo de produtos/clientes, definido pela estrutura \textbf{CatProd}/\textbf{CatCli}, mais precisamente, na árvore correspondente à primeira letra do código de produto ou cliente. À medida que lemos cada código, incrementamos o número de linhas lidas e se for válido, incrementamos também o número de linhas validadas.
+\par No caso do ficheiro de Vendas, também começamos por lê-lo e analisamos código a código. Caso este seja válido, restringimos a venda em termos da sua informação e inserimo-la em duas estruturas de dados distintas, a de faturação, definida por \textbf{FatGlobal} (na qual se insere a venda apenas com a informação necessária a uma \textbf{Fatura}); e a de gestão de filiais, definida por \textbf{VendasTotal} (na qual se insere a venda apenas com a informação necessária a uma \textbf{Venda}). Em semelhança aos outros dois ficheiros, à medida que lemos cada código de venda, incrementamos o número de linhas lidas e caso válido, incrementamos o número de linhas validadas.
+
+\subsection{Query 2}
+
+\noindent\fbox{%
+    \parbox{\textwidth}{%
+       \hspace{0.52cm} A query 2 determina a lista e o nº total de produtos cujo código se inicia por uma dada letra. A lista é apresentada ao utilizador, por ordem alfabética, permitindo que o mesmo navegue nela.
+    }%
+}
+\vspace{1cm}
+
+\par\noindent\hspace{0.52cm}Nesta \textit{query}, foi criada uma lista, definida pela estrutura \textbf{ListaProd}, que guarda um array com códigos de produtos e o número de produtos contidos no mesmo.
+\par Após sabermos a letra que o utilizador pretende analisar, acedemos ao nosso catálogo de produtos, definido pela estrutura \textbf{CatProd} e como este está ordenado de ordem alfabética, sabemos logo o índice onde se encontra a árvore binária que contém os códigos de produtos iniciados pela letra dada. Como tal, acedemos a essa árvore e inserimos cada código de produto no array da nossa lista, ordenado alfabeticamente, e incrementamos o número de produtos contidos. Tendo a lista, usamos o navegador que definimos, de forma a permitir ao utilizador percorrer página a página o conteúdo da lista.
+
+\subsection{Query 3}
+
+\noindent\fbox{%
+    \parbox{\textwidth}{%
+       \hspace{0.52cm} A query 3 retorna o número total de vendas e o total facturado com um dado produto em determinado mês, ambos válidos, distinguindo os totais relativamente ao tipo de compra. O utilizador pode aceder aos resultados filial a filial ou para toda as 3.
+    }%
+}
+\vspace{1cm}
+
+\par\noindent\hspace{0.52cm}De forma a responder a esta \textit{query}, após sabermos o mês e o produto que o utilizador pretende analisar, precisamos de percorrer 3 árvores binárias da nossa estrutura \textbf{FatGlobal}, ou seja, uma árvore de cada filial. O algoritmo usado para cada filial é o mesmo: acedemos à estrututa, particularizando não só a filial que pretendemos (iremos analisar uma de cada vez), mas também o mês (escolhido pelo utilizador) e o índice onde se encontra a árvore que guarda o código das faturas iniciados pela letra dada. Após isto, inicialmente, vamos analisar a situação de compra Normal e percorremos a árvore código a código, e caso a fatura tenha código de produto igual ao que estamos a analisar e o tipo de compra do mesmo seja Normal, multiplicamos a quantidade de unidades vendidas do produto dessa fatura pelo preço unitário do mesmo e somamos esse valor aos outros das faturas que se encontram na mesma situação(ou seja, com código de produto igual ao que estamos analisar e compra do tipo N). Desta forma, chegando ao fim da árvore, sabemos quanto é que faturamos com dado produto num determinado mês numa filial. Fazemos agora o mesmo para as outras duas filiais.  Agora fazemos novamente o mesmo, mas para o tipo de compra em Promoção.
+\par Depois, voltamos a percorrer as mesmas árvores, mas agora para guardarmos apenas a quantidade de unidades vendidas pelo produto dado. Basicamente, usamos o mesmo processo que anteriormente, mas desta vez apenas guardamos o total de compras.
+\par Por fim, caso o utilizador pretenda saber os resultados totais (ou seja, para todas as filais) somamos os valores encontrados para cada filial e retornamos o mesmo para cada tipo de compra. No entanto, se pretender os resultados por filial, retornarmos os valores já guardados, especificando a filial e o tipo de compra.
+
+\subsection{Query 4}
+
+\noindent\fbox{%
+    \parbox{\textwidth}{%
+       \hspace{0.52cm} Esta query determina a lista ordenada dos códigos dos produtos (e o seu número tota) que ninguém comprou, podendo o utilizador decidir igualmente se pretende
+       valores totais ou divididos pelas filiais. 
+    }%
+}
+\vspace{1cm}
+
+\par\noindent\hspace{0.52cm} Nesta \textit{query}, foi novamente necessário o uso da estrutura \textbf{ListaProd}. Primeiramente, acedemos ao nosso Catálogo de Produtos \textbf{CatProd} e, percorrendo todas as árvores do mesmo, convertemos cada uma delas numa lista do tipo que criamos inicialmente, uma de cada vez. À medida que convertemos uma árvore para uma lista (chamemos-lhe "listaPorLetra"), criamos também outra lista (chamemos-lhes "produtosNaoVendidos") e, caso o utilizador pretenda valores totais, percorremos  todas as árvores da nossa \textbf{FatGlobal}, e caso haja produtos da "listaPorLetra" que não se encontram nos códigos das faturas das árvores, iniciadas por letra igual ao produto que estamos a analisar, da \textbf{FatGlobal}, inserimos esse produto na "produtosNaoVendidos". Continuamos a fazer isto recursivamente para todas as árvores do nosso cátologo de produtos e conforme a evolução do processo, vamos fundindo as listas "produtosNaoVendidos", somamondo também o número de elementos de cada lista para, no final, termos o número de produtos que nunca foram comprados. No entanto, caso o utilizador queira valores divididos por filiais, usamos o mesmo algoritmo de cima, mas quando percorrermos as àrvores da \textbf{FatGlobal}, percorremos apenas as árvores da filial que o utilizador pretende.
+
+\subsection{Query 5}
+
+\noindent\fbox{%
+    \parbox{\textwidth}{%
+       \hspace{0.52cm} A quinta query retorna a lista ordenada de códigos de clientes que  realizaram compras em todas as filiais.
+    }%
+}
+\vspace{1cm}
+
+\par\noindent\hspace{0.52cm} Para esta \textit{query}, criamos uma lista do tipo \textbf{ListaCli}, composta por um array com códigos de clientes e o número de clientes contidos no mesmo. Em primeiro lugar, acedemos ao nosso Catálogo de Clientes \textbf{CatCli} e, percorrendo todas as árvores do mesmo, convertemos cada uma delas numa lista do tipo que criamos inicialmente, uma de cada vez. À medida que convertemos uma árvore para uma lista (vamos chamar-lhe "listaPorletra"), criamos também outra lista ligada(chamada, por exemplo, "clientesEmTodasAsFiliais") e percorremos  todas as árvores da nossa \textbf{VendasTotal}, e, caso haja clientes da "listaPorLetra" que se encontram nos códigos das vendas das árvores, iniciadas por letra igual ao produto que estamos a analisar, de todas as filiais da     \textbf{VendasTotal}, inserimos esse cliente na "clientesEmTodasAsFiliais". Continuamos a fazer isto recursivamente para todas as árvores do nosso cátologo de clientes e conforme a evolução do processo, vamos fundindo as listas "clienteEmTodasAsFiliais" e somamos o número de elementos de cada lista para, no final, termos o número de clientes efetuaram compras nas 3 filiais.
+
+\subsection{Query 6}
+
+\noindent\fbox{%
+    \parbox{\textwidth}{%
+       \hspace{0.52cm} A query 6 determina o número de clientes registados que não realizaram compras bem como o número de produtos que ninguém comprou.
+    }%
+}
+\vspace{1cm}
+
+\par\noindent\hspace{0.52cm} Para a resolução desta \textit{query}, criamos duas lista, uma delas guardava um array com códigos de clientes e o número de clientes contidos no mesmo (era do tipo \textbf{ListaCli}) e outra guardava um array com códigos de produtos e o número de produtos contidos no mesmo (do tipo \textbf{ListaProd}). Inicialmente, usamos o algoritmo usado na \textit{query 4} para concluir o número produtos que não foram comprados por ninguém em todas as filiais. Seguidamente, de modo a determinar o número de clientes registados que não realizaram compras, começamos por aceder  ao nosso Catálogo de Clientes \textbf{CatCli} e, percorrendo todas as àrvores do mesmo, convertemos cada uma delas numa lista de clientes do tipo que criamos inicialmente, uma de cada vez. À medida que convertemos uma árvore para uma lista (vamos chamar-lhe "listaPorletra"), criamos também outra lista (chamada, por exemplo, "clientesQueNaoCompraram") e percorremos  todas as árvores da nossa \textbf{VendasTotal}, e caso haja clientes da "listaPorLetra" que não se encontram nos códigos das vendas das árvores, iniciadas por letra igual ao produto que estamos a analisar, da \textbf{VendasTotal}, inserimos esse cliente na "clientesQueNaoCompraram". Continuamos a fazer isto recursivamente para todas as árvores do nosso cátologo de clientes e conforme a evolução do processo, vamos fundindo as listas "clientesQueNaoCompraram". Por fim, percorremos as duas listas que temos agora, definidas no início da \textit{query}, de modo a saber quantos elementos tem cada uma e, consequentemente, o número de clientes que nunca realizaram compras, bem como o de produtos que nunca foram comprados.
+
+\subsection{Query 7}
+
+\fbox{%
+    \parbox{\textwidth}{%
+        \hspace{1 cm}Dado um código de cliente, criar uma tabela com o \textbf{número total de produtos comprados} (ou seja a soma das quantidades de todas as vendas do produto), mês a mês (para meses em que não comprou a entrada deverá ficar a 0). A tabela deverá ser apresentada em ecrã organizada por filial.
+    }%
+}
+
+\vspace{1 cm}
+
+\par\noindent\hspace{0.52cm}Para a resolução desta \textit{query}, foi criada uma matriz dinâmica de inteiros, de dimensão \textit{Nº de Filiais} * \textit{Nº de Meses}, de modo a guardar em cada posição da matriz o total de produtos comprados pelo cliente numa determinada filial, num determinado mês.
+\par De modo a preencher uma dada posição (x, y) da matriz, foi criada uma função que percorre a estrutura \textbf{VendasTotal}, onde estão armazenadas todas as vendas, e para todas as árvores de vendas associadas à filial "x", ao mês "y" e ao caractér "c" (primeiro caractér do código de cliente dado), contabiliza todas as vendas efetuadas pelo cliente, devolvendo o seu número total.
+
+\subsection{Query 8}
+
+\fbox{%
+    \parbox{\textwidth}{%
+        \hspace{1 cm}Dado um intervalo fechado de meses, por exemplo [1..3], determinar o total de vendas (nº de registos de venda) registadas nesse intervalo e o total faturado.
+    }%
+}
+
+\vspace{1 cm}
+
+\par\noindent\hspace{0.52cm}Tendo em vista a elaboração desta \textit{query}, criou-se uma função que, dada uma estrutura \textbf{FatGlobal} e dois meses, percorre todas as árvores de faturas associadas a esse intervalo de meses (ou seja, para todas as filiais e todas as letras pelas quais os códigos de produtos são iniciados, percorre as árvores cujo mês associado está compreendido no intervalo fechado desses dois meses). Ao percorrer cada uma destas árvores, a função guarda os resultados que obtém (nº de vendas e total faturado) numa estrutura do tipo \textbf{Par}, sendo esta retornada no fim, após a travessia de todas as árvores, estando nela guardada o nº de vendas total e o total faturado, para o intervalo de meses pretendido.
+
+\subsection{Query 9}
+
+\fbox{%
+    \parbox{\textwidth}{%
+        \hspace{1 cm}Dado um código de produto e uma filial, determinar os códigos (e número total) dos clientes que o compraram, distinguindo entre compra N e compra P.
+    }%
+}
+
+\vspace{1 cm}
+
+\par\noindent\hspace{0.52cm}Com o objetivo de resolução desta \textit{query}, foi construída uma função tal que, dada uma estrutura \textbf{CatCli}, uma \textbf{VendasTotal}, o produto e a filial que se pretende analisar, e um tipo de compra ('N' ou 'P'), devolve a lista de todos os clientes que efetivamente compraram esse produto nessa filial, para o dado tipo de compra. Esta função executa da seguinte forma: para o catálogo de clientes fornecido, vai criando, letra a letra, uma lista com os clientes (\textbf{ListaCli}) iniciados por uma dada letra; depois, através de uma função auxiliar, percorre a lista de clientes, indo verificar, para cada um dos clientes, se ele comprou o produto em questão, tendo em conta o tipo de venda que está a ser analisado. Ou seja, a função percorre todos os clientes, verificando quais os que compraram o produto para um dado tipo de venda, guardando o código daqueles cujo teste deu positivo numa lista de clientes, que será devolvida ao utilizador. 
+\par Para a correta execução da \textit{query}, a função acima referida é evocada duas vezes, uma para o tipo de vendas 'N' e outra para o tipo de vendas 'P', sendo que ambas as listas são exibidas ao utilizador, distinguindo as compras normais das promocionais.
+
+\subsection{Query 10}
+
+\fbox{%
+    \parbox{\textwidth}{%
+        \hspace{1 cm}Dado um código de cliente e um mês, determinar a lista de códigos de produtos que mais comprou (por quantidade e não por faturação), por ordem descendente.
+    }%
+}
+
+\vspace{1 cm}
+
+\par\noindent\hspace{0.52cm}Com o intuito de desenvolver esta \textit{query}, foi criada uma estrutura \textbf{ParProdInt}, que é um par composto por um código de produto e um inteiro, e uma lista destes pares, designada de \textbf{ListaParesInt}, que possui um array dinâmico de pares e a quantidade de pares guardada.
+\par Posto isto, foi feita uma função que, dada uma estrutura \textbf{VendasTotal}, um mês e um código de um cliente, retorna uma lista de pares, com todos os produtos comprados por esse cliente nesse mês e a respetiva quantidade. De modo a fazer isto, a função percorre, para todas as filiais, todas as árvores associadas ao mês em questão, particularizando também apenas as que estão associadas à letra pela qual é iniciado o código do cliente (no entanto, claramente tem de percorrer todas as letras dos produtos). Durante este processo, e com a ajuda de uma função auxiliar, são inseridos numa lista de pares (que virá a ser devolvida como sendo a lista final) todos os produtos, e a respetiva quantidade comprada, adquiridos pelo cliente em questão.
+
+\subsection{Query 11}
+
+\fbox{%
+    \parbox{\textwidth}{%
+        \hspace{1 cm}Criar uma lista dos N produtos mais vendidos em todo o ano, indicando o número total de clientes e o número de unidades vendidas, filial a filial.
+    }%
+}
+
+\vspace{1 cm}
+
+\par\noindent\hspace{0.52cm}De modo a elaborar esta \textit{query}, foi definida uma função que, dada uma estrutura \textbf{VendasTotal}, uma \textbf{CatProd}, um inteiro N e uma filial, devolve uma lista de triplos com os N produtos mais vendidos. Um triplo está definido na estrutura \textbf{TriploPCQ}, sendo que este possui um código de produto e dois inteiros. Uma lista de triplos é dada pela estrutura \textbf{ListaTriplos}, que possui um array dinâmico de \textbf{TriploPCQ} e um inteiro, que indica a quantidade de triplos.
+\par Para a resolução do problema, a função cria, para cada um dos produtos presentes no catálogo de produtos, um triplo com o número de clientes que o compraram e o total de produtos comprados, percorrendo todas as árvores de vendas associadas à filial que se pretende analisar e à primeira letra do produto em questão. Posto isto, insere cada triplo numa lista de tamanho N, caso a quantidade de produtos vendidos seja superior à de pelo menos um dos produtos previamente inseridos nessa lista.
+\par Por fim, retorna a lista com os N produtos mais vendidos.
+
+\subsection{Query 12}
+
+\fbox{%
+    \parbox{\textwidth}{%
+        \hspace{1 cm}Dado um código de cliente determinar quais os códigos dos 3 produtos em que mais gastou dinheiro durante o ano.
+    }%
+}
+
+\vspace{1cm}
+
+\par\noindent\hspace{0.52cm}Com a intenção do desenvolvimento desta \textit{query}, foi criada uma função que, dada uma estrutura \textbf{VendasTotal} e um cliente, retorna uma lista de pares \textbf{ParProdDouble} com os 3 produtos em que esse cliente mais gastou dinheiro. Um \textbf{ParProdDouble} é um par com um código de produto e um double, sendo a sua lista definida na estrutura \textbf{ListaParesDouble}, constituída por um array de pares e o inteiro com a quantidade de pares inseridos.
+\par A referidada função percorre a estrutura de vendas, passando por todas as árvores associadas à primeira letra do cliente em questão, inserindo numa lista de pares todos os produtos (e o total gasto) cujo cliente comprou. Posto isto, essa lista é ordenada de forma decrescente, tendo em conta o total de dinheiro gasto, sendo devolvida ao cliente uma lista com os três primeiros elementos da lista ordenada (que são, consequentemente, os produtos nos quais foi gasto mais dinheiro).
+
+\section{\begin{Large}
+\textbf{Modularidade}
+\end{Large}}
+\par\noindent\hspace{0.52cm}O código foi criado de forma dividida e organizada de forma a que o utilizador não tivesse hipótese de alterar as estruturas de dados, de modo a tornar os módulos do programa o mais isolados possíveis, permitindo um encapsulamento dos dados. Tendo isto em vista, o código foi dividido em seis módulos: "catClientes.h", "catProd.h", "faturacao.h", "gestaoDeFiliais.h", "queries.h" e "navegador.h".
+\par O primeiro módulo trata das funções que implementam a estrutura de dados que guarda os códigos dos clientes.
+\par O segundo módulo trata das funções que implementam a estrutura de dados que guarda os códigos dos produtos.
+\par Relativamente ao módulo "faturacao.h", este permite a implementação da estrutura de dados que guarda os códigos das faturas, bem como funções auxiliares para a resolucão de queries envolvendo a Faturação.
+\par O módulo "gestaoDeFiliais.h" trata dos algoritmos que implementam a estrutura de dados responsável por guardar os códigos das vendas relativamente à Gestão de Filiais, bem como funções auxiliares para uso nas queries envolvendo a Gestão de Filiais.
+\par No módulo "queries.h" é onde se situam as funções responsáveis pela resolução das queries.
+\par Por fim, o módulo "navegador.h" é o que permite a navegação do conteúdo de listas de produtos ou clientes, pedidas nas queries.
+\par Estes módulos servem como uma API que permite ao utilizador apenas aceder determinados dados, escolhidos conforme o critério de quem está a programar, neste caso optando por um maior isolamento dos dados, e funcionam também como um auxílio ao programador, visto que permite uma partilha de dados entre módulos. Uma vez que o código está divido em vários módulos, permite que o programa em si esteja melhor organizado e de fácil leitura.
+
+\section{\begin{Large}
+\textbf{Otimização do Desempenho}
+\end{Large}}
+\par\noindent\hspace{0.52cm}Em relação a estratégias de desempenho, pode-se referir o facto de que, inicialmente guardavamos os códigos dos produtos, dos clientes e das vendas em diferentes arrays de strings. Porém, desta forma demoravam imenso tempo a ser lidos, principalmente o ficheiro de vendas (demorava cerca de 10 minutos). Passamos, então, a guardar os códigos em árvores binárias, organizadas em arrays das mais variadas dimensões, de modo a estruturar melhor a distribuição dos códigos, e a agilizar as inserções dos mesmos.
+\par Para além disto, ao longo da resolução das \textit{queries} foram criadas também estruturas auxiliares, como por exemplo estruturas que guardavam pares de informação, de forma a otimizar as mesmas, permitindo um melhor desempenho.
+
+\section{\begin{Large}
+\textbf{Conclusão}
+\end{Large}}
+\par\noindent\hspace{0.52cm}Após a elaboração deste projeto, podemos afirmar que aumentamos o nosso nível de conhecimento, não só no que toca ao domínio da linguagem de programação C, mas também à compreensão de determinados conceitos, nomeadamente a modularidade, o encapsulamento de dados e a otimização de código. Com o desenvolvimento deste trabalho, fomo-nos deparando com diversos obstáculos que se colocaram à nossa frente, sendo necessário não só fazer uso de conhecimentos previamente adquiridos, mas também de outros novos, conseguidos através de uma procura nas fontes disponíveis.
+
+\end{document}

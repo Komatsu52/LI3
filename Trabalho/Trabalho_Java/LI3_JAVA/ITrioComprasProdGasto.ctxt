@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.target=ITrioComprasProdGasto
+comment0.text=\n\ Write\ a\ description\ of\ class\ ITrioComprasProdGasto\ here.\n\n\ @author\ (your\ name)\n\ @version\ (a\ version\ number\ or\ a\ date)\n
+comment1.params=
+comment1.target=int[]\ getCompras()
+comment1.text=\n\ Metodo\ que\ devolve\ o\ array\ do\ numero\ de\ compras\ de\ um\ determinado\ trio\n\n\ @return\ \ \ \ \ \ \ \ o\ n\u00BA\ de\ compras\n
+comment2.params=
+comment2.target=int[]\ getProdutos()
+comment2.text=\n\ Metodo\ que\ devolve\ o\ array\ do\ numero\ de\ produtos\ de\ um\ determinado\ trio\n\n\ @return\ \ \ \ \ \ \ \ o\ n\u00BA\ de\ produtos\n
+comment3.params=
+comment3.target=double[]\ getGasto()
+comment3.text=\n\ Metodo\ que\ devolve\ o\ array\ dos\ gastos\ de\ um\ determinado\ trio\n\n\ @return\ \ \ \ \ \ \ \ o\ n\u00BA\ de\ gastos\n
+comment4.params=trio\ n
+comment4.target=void\ fundeTrios(ITrioComprasProdGasto,\ int)
+comment4.text=\n\ Metodo\ que\ junta\ um\ trio\ dado\ ao\ trio\n\ \n\ @param\ \ \ trio\ \ \ o\ trio\ a\ juntar\n\ @param\ \ \ n\ \ \ o\ tamanho\ dos\ arrays\ do\ trio\ dado\ \n
+numComments=5

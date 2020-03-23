@@ -1,0 +1,19 @@
+#BlueJ class context
+comment0.target=TrioComprasProdGasto
+comment0.text=\n\ Write\ a\ description\ of\ class\ TrioComprasProdGasto\ here.\n\n\ @author\ (your\ name)\n\ @version\ (a\ version\ number\ or\ a\ date)\n
+comment1.params=compras\ produtos\ gasto
+comment1.target=TrioComprasProdGasto(int[],\ int[],\ double[])
+comment1.text=\n\ Construtor\ para\ objetos\ da\ classe\ TrioComprasProdGasto\ (por\ parametrizacao)\n
+comment2.params=
+comment2.target=int[]\ getCompras()
+comment2.text=\n\ Metodo\ que\ devolve\ o\ array\ do\ numero\ de\ compras\ de\ um\ determinado\ trio\n\n\ @return\ \ \ \ \ \ \ \ o\ n\u00BA\ de\ compras\n
+comment3.params=
+comment3.target=int[]\ getProdutos()
+comment3.text=\n\ Metodo\ que\ devolve\ o\ array\ do\ numero\ de\ produtos\ de\ um\ determinado\ trio\n\n\ @return\ \ \ \ \ \ \ \ o\ n\u00BA\ de\ produtos\n
+comment4.params=
+comment4.target=double[]\ getGasto()
+comment4.text=\n\ Metodo\ que\ devolve\ o\ array\ dos\ gastos\ de\ um\ determinado\ trio\n\n\ @return\ \ \ \ \ \ \ \ o\ n\u00BA\ de\ gastos\n
+comment5.params=trio\ n
+comment5.target=void\ fundeTrios(ITrioComprasProdGasto,\ int)
+comment5.text=\n\ Metodo\ que\ junta\ um\ trio\ dado\ ao\ trio\n\ \n\ @param\ \ \ trio\ \ \ o\ trio\ a\ juntar\n\ @param\ \ \ n\ \ \ o\ tamanho\ dos\ arrays\ do\ trio\ dado\ \n
+numComments=6
